@@ -16,7 +16,7 @@ The goals / steps of this project were the following:
 * Next, I performed a **Histogram of Oriented Gradients (HOG)** feature extraction along with applying a **color transform** and **append binned color featuresand histograms of color** on a labeled training set of images. HOG Feature extraction allows visualization of predominant features/ patterns specific to cars, here is an image showing results of my HOG feature extraction applied to some vehicle and non-vehicle images:
 <img src="./output_images/hogFeatures.png">
 
-* Next, I split my data into training and test set (80%-20% ratio) and trained a classifier Linear SVM classifier. I randomly shuffled my data and normalized the X values, followed by comparing accuracies with various hyperparameters (for ex. pix_per_cell, cell_per_block, spatial_size etc.) and with the end values I chose, I obtained training and test accuracies of 100% and 99.2% respectivelly.
+* Next, I split my data into training and test set (80%-20% ratio) and trained a classifier Linear SVM classifier. I randomly shuffled my data and normalized the X values, followed by comparing accuracies with various hyperparameters (for ex. pix_per_cell, cell_per_block, spatial_size etc.) and with the end values I chose, I obtained training and test accuracies of 100% and 99.2% respectivelly. In the final feature selection process, I did not choose color histogram feature extraction.
 
 * After obtaining a classifier with a great accuracy, I implemented a sliding-window technique to search for vehicles in images. First I implemented OpenCV's rectangle drawing function to draw rectangles at desired locations as shown in the below figure:
 <img src="./output_images/DefaultBoxes.png">
@@ -28,11 +28,16 @@ The goals / steps of this project were the following:
 <img src="./output_images/multiImages_with_default_Box1.png">
 
 * From the above figure, it can be seen that there are many false positives in the image (wrongly detected images) and there are also images which have been detected multiple times, (by same-sized rectangular window drawn at different locations in the image). In order to aliveate this problem, I used heatmaps with a threshold. What it means is that if an image is detected multiple times, it is "heated" and then end location chosen is the centroid of all the points obtained for the same image. On the other hand, a false positive would become "cold", and we can thereby ignore it. A heat map for the same image set is shown below:
-<img src="./output_images/HeatMaps.png">
+<img src="./output_images/HeatMaps1.png">
 
-* After getting satisfactory results on images, I ran my pipeline on a video stream and created a heat map of recurring detections frame by frame to reject outliers and follow detected vehicles. You can check the resultant video [here](./test_videos_output/ProjectVideoOutput.mp4)
+* After getting satisfactory results on images, I ran my pipeline on a video stream and created a heat map of recurring detections frame by frame to reject outliers and follow detected vehicles. I also used "deque" library to store the heatmaps of the last 5 frames using. You can check the resultant video [here](./test_videos_output/ProjectVideoOutput.mp4)
 
 * Once I had a working pipeline for vehicle detection, I added my lane-finding algorithm from the last project to do simultaneous lane-finding and vehicle detection!
 
 ---
 Here are links to the labeled data for [vehicle](https://s3.amazonaws.com/udacity-sdc/Vehicle_Tracking/vehicles.zip) and [non-vehicle](https://s3.amazonaws.com/udacity-sdc/Vehicle_Tracking/non-vehicles.zip) examples that I used for training my classifier.  These example images come from a combination of the [GTI vehicle image database](http://www.gti.ssr.upm.es/data/Vehicle_database.html), the [KITTI vision benchmark suite](http://www.cvlibs.net/datasets/kitti/), and examples extracted from the project video itself.
+
+---
+
+* **Problems/ Issues faced:** The input images on which I trained the model were .png format, whereas output/ test images were in .jpeg format. I had to be careful to multiply my input images to have them read between 0-255 using mpiread function. 
+I also felt that the hyperparameter tuning is very important in this project. It sometimes gets hard to analyze and tune the  parameters according to the images, as the pipeline might fail for the video streams. I also wanted to detect cars on the opposite lane, requiring smaller window sizes, however that gave me lots of false positives. Use of "deque" library surely did help overcoming problem with jittery images in each frame. I wanted to use SVC's decision_function as well, however, I was not able to implement it correctly.
