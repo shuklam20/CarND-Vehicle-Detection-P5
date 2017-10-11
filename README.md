@@ -21,8 +21,11 @@ The goals / steps of this project were the following:
 * After obtaining a classifier with a great accuracy, I implemented a sliding-window technique to search for vehicles in images. First I implemented OpenCV's rectangle drawing function to draw rectangles at desired locations as shown in the below figure:
 <img src="./output_images/DefaultBoxes.png">
 
+* With functionality to change the size of my rectangles, here is the same image from above visualized with rectangles of different sizes drawn on top of it:
+<img src="./output_images/DefaultBoxes1.png">
+
 * I wrote a function that would draw rectangle only where my classifier would predict a value of 1, this gave me this result for all my test images: (There were a few images provided to us for testing our algorithm as part of this project)
-<img src="./output_images/multiImages_with_default_Box.png">
+<img src="./output_images/multiImages_with_default_Box1.png">
 
 * From the above figure, it can be seen that there are many false positives in the image (wrongly detected images) and there are also images which have been detected multiple times, (by same-sized rectangular window drawn at different locations in the image). In order to aliveate this problem, I used heatmaps with a threshold. What it means is that if an image is detected multiple times, it is "heated" and then end location chosen is the centroid of all the points obtained for the same image. On the other hand, a false positive would become "cold", and we can thereby ignore it. A heat map for the same image set is shown below:
 <img src="./output_images/HeatMaps.png">
