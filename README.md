@@ -42,4 +42,5 @@ Here are links to the labeled data for [vehicle](https://s3.amazonaws.com/udacit
 * **Problems/ Issues faced:** The input images on which I trained the model were .png format, whereas output/ test images were in .jpeg format. I had to be careful to multiply my input images to have them read between 0-255 using mpiread function. 
 I also felt that the hyperparameter tuning is very important in this project. It sometimes gets hard to analyze and tune the  parameters according to the images, as the pipeline might fail for the video streams. I also wanted to detect cars on the opposite lane, requiring smaller window sizes, however that gave me lots of false positives. Use of "deque" library surely did help overcoming problem with jittery images in each frame. I wanted to use SVC's decision_function as well, however, I was not able to implement it correctly.
 
-In the end, I also implemented [YOLO](https://pjreddie.com/darknet/yolo/) but tried only for the image files.
+In the end, I also implemented [YOLO](https://pjreddie.com/darknet/yolo/) but tried only for the image files. This is the result of YOLO classifier:
+<img src="./output_images/predictions.png">
